@@ -9,6 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class PersonService {
 
@@ -27,5 +30,12 @@ public class PersonService {
         // Salva a entidade
         Person personSaved = this.personRepository.save(personToSave);
         return MessageResponseDTO.builder().message("criado com id : " + personSaved.getId()).build();
+    }
+
+    public List<PersonDTO> listAll() {
+        List<Person> allPeople = this.personRepository.findAll();
+        return allPeople.stream()
+                        .map(this.personMapper::toDTO)
+                        .collect(Collectors.toList());
     }
 }
