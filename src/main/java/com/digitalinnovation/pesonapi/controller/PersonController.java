@@ -3,6 +3,7 @@ package com.digitalinnovation.pesonapi.controller;
 import com.digitalinnovation.pesonapi.dto.request.PersonDTO;
 import com.digitalinnovation.pesonapi.dto.response.MessageResponseDTO;
 import com.digitalinnovation.pesonapi.entity.Person;
+import com.digitalinnovation.pesonapi.exception.PersonNotFoundException;
 import com.digitalinnovation.pesonapi.service.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -31,5 +32,21 @@ public class PersonController {
     @GetMapping
     public List<PersonDTO> listAll() {
         return personService.listAll();
+    }
+
+    @GetMapping("/{id}")
+    public PersonDTO listOne(@PathVariable Long id) throws PersonNotFoundException {
+        return this.personService.listOne(id);
+    }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteById(@PathVariable Long id) throws PersonNotFoundException {
+        this.personService.delete(id);
+    }
+
+    @PutMapping("/{id}")
+    public MessageResponseDTO updateById(@PathVariable Long id, @RequestBody @Valid PersonDTO personDTO) throws PersonNotFoundException {
+        return this.personService.updateById(id, personDTO);
     }
 }
