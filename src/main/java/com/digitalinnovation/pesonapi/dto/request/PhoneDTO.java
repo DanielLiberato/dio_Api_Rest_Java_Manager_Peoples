@@ -23,6 +23,6 @@ public class PhoneDTO {
     private PhoneType type;
 
     @NotEmpty
-    @Size(min = 13, max = 14)
+    @Size(min = 8, max = 15)
     private String number;
 }
